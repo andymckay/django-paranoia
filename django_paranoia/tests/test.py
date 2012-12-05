@@ -25,7 +25,6 @@ from django import forms
 from django.db import models
 from django.test import TestCase
 from django.test.client import RequestFactory
-from django.utils.importlib import import_module
 
 import mock
 from nose.tools import eq_
@@ -132,12 +131,20 @@ class TestSession(TestCase):
     def test_request(self):
         self.get().save()
         res = self.get()
-        eq_(res.request_data(), {'meta:REMOTE_ADDR': '127.0.0.1'})
+        eq_(set(res.request_data().keys()),
+            set(['meta:REMOTE_ADDR', 'meta:HTTP_USER_AGENT']))
         assert not self.called
 
     def test_request_changed(self):
         ses = self.get()
         ses.save()
         req = self.request(REMOTE_ADDR='192.168.1.1')
+        ses.check_request_data(request=req)
+        assert self.called
+
+    def test_user_agent_changed(self):
+        ses = self.get(self.request(HTTP_USER_AGENT='foo'))
+        ses.save()
+        req = self.request(HTTP_USER_AGENT='bar')
         ses.check_request_data(request=req)
         assert self.called

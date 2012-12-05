@@ -8,11 +8,10 @@ from flags import trans, SESSION_CHANGED
 
 KEY_PREFIX = 'django_paranoid.sessions:'
 DATA_PREFIX = '%sdata' % KEY_PREFIX
-META_KEYS = ['REMOTE_ADDR']
+META_KEYS = ['REMOTE_ADDR', 'HTTP_USER_AGENT']
 
 
 class SessionStore(Base):
-
 
     def __init__(self, request=None, session_key=None):
         self._cache = cache
