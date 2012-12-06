@@ -20,11 +20,12 @@ class Paranoid(object):
                          message=msg, values=extra)
 
     def clean(self):
-        super(Paranoid, self).clean()
+        result = super(Paranoid, self).clean()
         for k, v in self.cleaned_data.values():
             # Spot SQL injection attempts.
             # Spot XSS attempt.
             pass
+        return result
 
 
 class ParanoidForm(Paranoid, Form):

@@ -89,7 +89,7 @@ class TestSetup(TestCase):
         config([self.log, 'foo'])
         eq_(len(warning.connect.call_args_list), 1)
         eq_(warning.connect.call_args[1]['dispatch_uid'],
-            'django-paranoia-%s' % self.log)
+            'paranoia.warning')
 
 
 class TestLog(TestCase):
