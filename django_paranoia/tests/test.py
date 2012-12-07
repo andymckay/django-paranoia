@@ -1,4 +1,4 @@
-import uuid
+# -*- coding: utf-8 -*-
 
 from django.conf import settings
 
@@ -30,7 +30,7 @@ from django.test.client import RequestFactory
 import mock
 from nose.tools import eq_
 from django_paranoia.configure import config
-from django_paranoia.decorators import require_http_methods, require_GET
+from django_paranoia.decorators import require_http_methods
 from django_paranoia.forms import ParanoidForm, ParanoidModelForm
 from django_paranoia.sessions import SessionStore
 from django_paranoia.signals import warning
@@ -94,6 +94,25 @@ class TestForms(ResultCase):
         assert not form.is_valid()
         res = self.called[0][1]
         eq_(set(res['values']), set(['req', 'yes']))
+
+    def test_dodgy_value(self):
+        SimpleForm({'yes': chr(6)})
+        assert self.called
+
+    def test_dodgy_key(self):
+        SimpleForm({chr(6): 'yes'})
+        # Once because chr(6) is an extra char, once because of the key.
+        eq_(len(self.called), 2)
+
+    def test_dodgy_allowed(self):
+        for x in ['\t', '\r', '\n']:
+            self.called = []
+            SimpleForm({'yes': x})
+            assert not self.called
+
+    def test_dody_unicode(self):
+        SimpleForm({'yes': u'Һејдәр Әлијев'})
+        assert not self.called
 
 
 @mock.patch('django_paranoia.configure.warning')
