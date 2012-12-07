@@ -23,12 +23,14 @@ if not settings.configured:
 
 from django import forms
 from django.db import models
+from django.http import HttpResponseNotAllowed
 from django.test import TestCase
 from django.test.client import RequestFactory
 
 import mock
 from nose.tools import eq_
 from django_paranoia.configure import config
+from django_paranoia.decorators import require_http_methods, require_GET
 from django_paranoia.forms import ParanoidForm, ParanoidModelForm
 from django_paranoia.sessions import SessionStore
 from django_paranoia.signals import warning
@@ -52,7 +54,7 @@ class SimpleModelForm(ParanoidModelForm):
         model = SimpleModel
 
 
-class TestForms(TestCase):
+class ResultCase(TestCase):
 
     def result(self, *args, **kwargs):
         self.called.append((args, kwargs))
@@ -60,6 +62,9 @@ class TestForms(TestCase):
     def setUp(self):
         self.called = []
         self.connect = warning.connect(self.result)
+
+
+class TestForms(ResultCase):
 
     def test_fine(self):
         SimpleForm()
@@ -107,16 +112,12 @@ class TestLog(TestCase):
     pass
 
 
-class TestSession(TestCase):
+class TestSession(ResultCase):
 
     def setUp(self):
         self.session = None
         self.uid = 'some:uid'
-        self.called = []
-        self.connect = warning.connect(self.result)
-
-    def result(self, *args, **kwargs):
-        self.called.append((args, kwargs))
+        super(TestSession, self).setUp()
 
     def request(self, **kwargs):
         req = RequestFactory().get('/')
@@ -157,4 +158,21 @@ class TestSession(TestCase):
         ses.save()
         req = self.request(HTTP_USER_AGENT='bar')
         ses.check_request_data(request=req)
+        assert self.called
+
+
+@require_http_methods(['POST'])
+def some(request):
+    return True
+
+
+class TestDecorators(ResultCase):
+
+    def test_some_ok(self):
+        assert some(RequestFactory().post('/'))
+        assert not self.called
+
+    def test_some_not(self):
+        assert isinstance(some(RequestFactory().get('/')),
+                          HttpResponseNotAllowed)
         assert self.called
