@@ -42,6 +42,10 @@ class SimpleModel(models.Model):
     yes = models.BooleanField()
 
 
+class RequiredForm(SimpleForm):
+    req = forms.CharField(required=True)
+
+
 class SimpleModelForm(ParanoidModelForm):
 
     class Meta:
@@ -79,6 +83,12 @@ class TestForms(TestCase):
     def test_model_extra(self):
         SimpleModelForm({'no': 'wat'})
         assert self.called
+
+    def test_required(self):
+        form = RequiredForm({})
+        assert not form.is_valid()
+        res = self.called[0][1]
+        eq_(set(res['values']), set(['req', 'yes']))
 
 
 @mock.patch('django_paranoia.configure.warning')

@@ -50,7 +50,6 @@ def config(reporters=None, *args, **kw):
             return
 
     for reporter in reporters:
-        print reporter
         try:
             to = import_module(reporter).report
         except ImportError:
