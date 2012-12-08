@@ -7,7 +7,7 @@ Django Paranoia is a library to try and detect nasty things going on your site.
 It does not prevent attacks, just logs them.
 
 Setup
------
+=====
 
 To install::
 
@@ -32,7 +32,7 @@ If you don't want to pass data through to *config* then you can also set
 *DJANGO_PARANOIA_REPORTERS*, just ensure that *config* is called.
 
 Using
------
+=====
 
 The OWASP Detection points cover a large amount of the Django site, so each
 part is covered in seperately:
@@ -42,7 +42,7 @@ part is covered in seperately:
 * :ref:`views`
 
 Output
-------
+======
 
 When you configure Django Paranoia, you can pass through a list of reporters.
 Current choices are:
