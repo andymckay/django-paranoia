@@ -1,7 +1,6 @@
 import logging
 from threading import local
 
-from django.core.signals import request_finished
 from django.utils.importlib import import_module
 
 from signals import finished, process, warning
@@ -22,6 +21,7 @@ def add_signal(signal, **kw):
     # Let's not pickle the sender.
     kw['sender'] = kw['sender'].__name__
     _locals.signals.append(kw)
+
 
 def reset(**kw):
     setup()
