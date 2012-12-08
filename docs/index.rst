@@ -1,8 +1,8 @@
 Django Paranoia
 ==========================================
 
-Django Paranoia is an attempt to implement some of the OWASP Detection Points
-as outlined in this document:
+Django Paranoia implements some of the OWASP Detection Points as outlined in
+this document:
 
 https://www.owasp.org/index.php/AppSensor_DetectionPoints
 
@@ -15,6 +15,10 @@ nasty to your site and log it.
 *Note*: this is does not prevent any actions that might cause damage to your
 site. All the usual prevention measures must be taken to ensure you are not
 susceptible to XSS, SQL injection and so on.
+
+Check out the source at:
+
+https://github.com/andymckay/django-paranoia
 
 .. toctree::
    :maxdepth: 2
