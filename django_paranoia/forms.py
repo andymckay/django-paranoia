@@ -43,14 +43,6 @@ class Paranoid(object):
         msg = (u'%s: %s in %s' % (trans[flag], data, klass.__name__))
         warning.send(sender=klass, flag=flag, message=msg, values=data)
 
-    def clean(self):
-        result = super(Paranoid, self).clean()
-        for k, v in self.cleaned_data.values():
-            # Spot SQL injection attempts.
-            # Spot XSS attempt.
-            pass
-        return result
-
     def is_valid(self):
         # We can't tell what is missing until the end.
         result = super(Paranoid, self).is_valid()
