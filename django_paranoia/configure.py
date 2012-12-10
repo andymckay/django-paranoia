@@ -39,16 +39,7 @@ def process_signals(signal, **kw):
         process.send(request=kw['request'], **data)
 
 
-def config(reporters=None, *args, **kw):
-    if not reporters:
-        try:
-            from django.conf import settings
-            reporters = getattr(settings, 'DJANGO_PARANOIA_REPORTERS', [])
-        except ImportError:
-            # This can occur when running the tests, because at this time
-            # the settings module isn't created. TODO: fix this.
-            return
-
+def config(reporters, *args, **kw):
     for reporter in reporters:
         try:
             to = import_module(reporter).report

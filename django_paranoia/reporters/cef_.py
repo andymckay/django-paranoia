@@ -6,7 +6,7 @@ from cef import log_cef
 
 
 def report(signal, message=None, flag=None, sender=None, values=None,
-           request=None):
+           request=None, **kwargs):
     g = functools.partial(getattr, settings)
     severity = g('CEF_DEFAULT_SEVERITY', 5)
     cef_kw = {'msg': message, 'signature': request.get_full_path(),

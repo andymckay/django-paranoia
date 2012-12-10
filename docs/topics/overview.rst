@@ -21,15 +21,12 @@ Add in the middleware::
                 'django_paranoia.middleware.Middleware',
         )
 
-Hook up the reporters in your settings file::
+Hook up the reporters::
 
         from django_paranoia import configure
         configure.config([
                 'django_paranoia.reporters.log',
         ])
-
-If you don't want to pass data through to *config* then you can also set
-*DJANGO_PARANOIA_REPORTERS*, just ensure that *config* is called.
 
 Using
 =====
