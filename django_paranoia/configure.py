@@ -1,6 +1,7 @@
 import logging
 from threading import local
 
+from django.conf import settings
 from django.utils.importlib import import_module
 
 from signals import finished, process, warning
@@ -39,7 +40,8 @@ def process_signals(signal, **kw):
         process.send(request=kw['request'], **data)
 
 
-def config(reporters, *args, **kw):
+def config(*args, **kw):
+    reporters = getattr(settings, 'DJANGO_PARANOIA_REPORTERS', [])
     for reporter in reporters:
         try:
             to = import_module(reporter).report

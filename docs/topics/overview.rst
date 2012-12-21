@@ -23,10 +23,9 @@ Add in the middleware::
 
 Hook up the reporters::
 
-        from django_paranoia import configure
-        configure.config([
+        DJANGO_PARANOIA_REPORTERS = [
                 'django_paranoia.reporters.log',
-        ])
+        ]
 
 Using
 =====
