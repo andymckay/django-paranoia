@@ -41,7 +41,11 @@ def process_signals(signal, **kw):
 
 
 def config(*args, **kw):
-    reporters = getattr(settings, 'DJANGO_PARANOIA_REPORTERS', [])
+    try:
+        reporters = getattr(settings, 'DJANGO_PARANOIA_REPORTERS', [])
+    except ImportError:
+        return
+
     for reporter in reporters:
         try:
             to = import_module(reporter).report
