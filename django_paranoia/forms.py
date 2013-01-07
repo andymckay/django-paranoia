@@ -51,7 +51,9 @@ class Paranoid(object):
             for k, errors in self.errors.items():
                 field = self.fields.get(k)
                 for error in errors:
-                    if error == field.error_messages['required']:
+                    if field and error == field.error_messages['required']:
+                        missing.append(k)
+                    else:
                         missing.append(k)
 
         if missing:
