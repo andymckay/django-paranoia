@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='django-paranoia',
-    version='0.1.6',
+    version='0.1.7',
     description='OWASP detection point reporting for Django',
     long_description=open('README.rst').read(),
     author='Andy McKay',
