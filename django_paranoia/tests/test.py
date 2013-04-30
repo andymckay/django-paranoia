@@ -23,17 +23,18 @@ if not settings.configured:
 
 from django import forms
 from django.db import models
-from django.http import HttpResponseNotAllowed
+from django.http import HttpResponse, HttpResponseNotAllowed
 from django.test import TestCase
 from django.test.client import RequestFactory
 
 import mock
-from nose.tools import eq_
+from nose.tools import eq_, ok_
 from django_paranoia.configure import config
 from django_paranoia.decorators import require_http_methods
 from django_paranoia.forms import ParanoidForm, ParanoidModelForm
+from django_paranoia.middleware import Middleware
 from django_paranoia.sessions import SessionStore
-from django_paranoia.signals import warning
+from django_paranoia.signals import finished, warning
 
 
 class SimpleForm(ParanoidForm):
@@ -61,7 +62,8 @@ class ResultCase(TestCase):
 
     def setUp(self):
         self.called = []
-        self.connect = warning.connect(self.result)
+        self.warning = warning.connect(self.result)
+        self.finished = finished.connect(self.result)
 
 
 class TestForms(ResultCase):
@@ -195,3 +197,13 @@ class TestDecorators(ResultCase):
         assert isinstance(some(RequestFactory().get('/')),
                           HttpResponseNotAllowed)
         assert self.called
+
+
+class TestMiddleware(ResultCase):
+
+    def test_middle(self):
+        Middleware().process_response(RequestFactory().get('/'),
+                                      HttpResponse())
+        args = self.called[0][1]
+        ok_('request_meta' in args)
+        eq_(args['request_path'], 'http://testserver/')

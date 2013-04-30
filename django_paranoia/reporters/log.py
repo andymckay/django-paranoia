@@ -4,5 +4,5 @@ log = logging.getLogger('paranoia')
 
 
 def report(signal, message=None, flag=None, sender=None, values=None,
-           request=None, **kwargs):
+           request_path=None, request_meta=None, **kwargs):
     log.warning(message)

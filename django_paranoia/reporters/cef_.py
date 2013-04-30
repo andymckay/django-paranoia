@@ -6,10 +6,10 @@ from cef import log_cef
 
 
 def report(signal, message=None, flag=None, sender=None, values=None,
-           request=None, **kwargs):
+           request_path=None, request_meta=None, **kwargs):
     g = functools.partial(getattr, settings)
     severity = g('CEF_DEFAULT_SEVERITY', 5)
-    cef_kw = {'msg': message, 'signature': request.get_full_path(),
+    cef_kw = {'msg': message, 'signature': request_path,
             'config': {
                 'cef.product': g('CEF_PRODUCT', 'paranoia'),
                 'cef.vendor': g('CEF_VENDOR', 'Mozilla'),
@@ -18,4 +18,4 @@ def report(signal, message=None, flag=None, sender=None, values=None,
                 'cef.file': g('CEF_FILE', 'syslog'),
             }
         }
-    log_cef(message, severity, request.META.copy(), **cef_kw)
+    log_cef(message, severity, request_meta, **cef_kw)

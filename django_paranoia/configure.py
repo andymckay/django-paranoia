@@ -37,7 +37,8 @@ def process_signals(signal, **kw):
         return
 
     for data in _locals.signals:
-        process.send(request=kw['request'], **data)
+        process.send(request_path=kw['request_path'],
+                     request_meta=kw['request_meta'], **data)
 
 
 def config(*args, **kw):
