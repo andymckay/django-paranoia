@@ -13,9 +13,9 @@ META_KEYS = ['REMOTE_ADDR', 'HTTP_USER_AGENT']
 
 class SessionStore(Base):
 
-    def __init__(self, request=None, session_key=None):
+    def __init__(self, request_meta=None, session_key=None):
         self._cache = cache
-        self.request = request
+        self.request_meta = request_meta
         super(SessionStore, self).__init__(session_key)
 
     @property
@@ -29,7 +29,7 @@ class SessionStore(Base):
         data = self._get_session(no_load=must_create)
         data.setdefault(DATA_PREFIX, {})
         for k in META_KEYS:
-            data[DATA_PREFIX]['meta:%s' % k] = self.request.META.get(k, '')
+            data[DATA_PREFIX]['meta:%s' % k] = self.request_meta.get(k, '')
         return super(SessionStore, self).save(must_create=must_create)
 
     def create(self):
@@ -59,5 +59,5 @@ class ParanoidSessionMiddleware(SessionMiddleware):
             raise ValueError('SESSION_ENGINE must be django_paranoia.sessions')
 
         session_key = request.COOKIES.get(settings.SESSION_COOKIE_NAME, None)
-        request.session = SessionStore(request=request,
+        request.session = SessionStore(request_meta=request.META.copy(),
                                        session_key=session_key)

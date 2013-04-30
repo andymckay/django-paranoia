@@ -146,7 +146,8 @@ class TestSession(ResultCase):
         return req
 
     def get(self, request=None):
-        session = SessionStore(request=request or self.request(),
+        request = request if request else self.request()
+        session = SessionStore(request_meta=request.META.copy(),
                                session_key=self.uid)
         self.uid = session._session_key
         return session
