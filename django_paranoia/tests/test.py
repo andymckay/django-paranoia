@@ -15,6 +15,7 @@ minimal = {
         }
     },
     'INSTALLED_APPS': ['django.contrib.sessions'],
+    'SESSION_ENGINE': 'django_paranoia.sessions',
     'DJANGO_PARANOIA_REPORTERS': ['django_paranoia.reporters.log'],
 }
 
@@ -33,7 +34,7 @@ from django_paranoia.configure import config
 from django_paranoia.decorators import require_http_methods
 from django_paranoia.forms import ParanoidForm, ParanoidModelForm
 from django_paranoia.middleware import Middleware
-from django_paranoia.sessions import SessionStore
+from django_paranoia.sessions import SessionStore, ParanoidSessionMiddleware
 from django_paranoia.signals import finished, warning
 
 
@@ -135,35 +136,26 @@ class TestLog(TestCase):
 
 class TestSession(ResultCase):
 
-    def setUp(self):
-        self.session = None
-        self.uid = 'some:uid'
-        super(TestSession, self).setUp()
-
     def request(self, **kwargs):
         req = RequestFactory().get('/')
         req.META.update(**kwargs)
         return req
 
-    def get(self, request=None):
+    def get(self, request=None, uid=None):
         request = request if request else self.request()
-        session = SessionStore(request_meta=request.META.copy(),
-                               session_key=self.uid)
-        self.uid = session._session_key
-        return session
-
-    def save(self):
-        self.session.save()
+        return SessionStore(request_meta=request.META.copy(),
+                            session_key=uid)
 
     def test_basic(self):
         self.session = self.get()
         self.session['foo'] = 'bar'
-        self.save()
-        eq_(self.get().load()['foo'], 'bar')
+        self.session.save()
+        eq_(self.get(uid=self.session.session_key).load()['foo'], 'bar')
 
     def test_request(self):
-        self.get().save()
-        res = self.get()
+        session = self.get()
+        session.save()
+        res = self.get(uid=session.session_key)
         eq_(set(res.request_data().keys()),
             set(['meta:REMOTE_ADDR', 'meta:HTTP_USER_AGENT']))
         assert not self.called
@@ -208,3 +200,15 @@ class TestMiddleware(ResultCase):
         args = self.called[0][1]
         ok_('request_meta' in args)
         eq_(args['request_path'], 'http://testserver/')
+
+    def test_paranoia(self):
+        middle = ParanoidSessionMiddleware()
+        request = RequestFactory().get('/')
+        middle.process_request(request)
+        request.session['foo'] = 'bar'
+        request.session.save()
+
+        # Change the address.
+        request.META['REMOTE_ADDR'] = 'foo'
+        middle.process_response(request, HttpResponse())
+        assert self.called
