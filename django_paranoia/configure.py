@@ -20,7 +20,7 @@ def setup():
 def add_signal(signal, **kw):
     setup()
     # Let's not pickle the sender.
-    kw['sender'] = kw['sender'].__name__
+    kw['sender'] = kw['sender'].__class__.__name__
     _locals.signals.append(kw)
 
 
