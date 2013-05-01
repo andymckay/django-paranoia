@@ -30,7 +30,9 @@ class SessionStore(Base):
         data.setdefault(DATA_PREFIX, {})
         if self.request_meta:
             for k in META_KEYS:
-                data[DATA_PREFIX]['meta:%s' % k] = self.request_meta.get(k, '')
+                dest = 'meta:%s' % k
+                if dest not in data[DATA_PREFIX]:
+                    data[DATA_PREFIX][dest] = self.request_meta.get(k, '')
         return super(SessionStore, self).save(must_create=must_create)
 
     def request_data(self):
@@ -43,7 +45,7 @@ class SessionStore(Base):
             current = request.META.get(k, '')
             if saved and saved != current:
                 values = [saved, current]
-                msg = msg = (u'%s: %s' % (trans[SESSION_CHANGED], values))
+                msg = (u'%s: %s' % (trans[SESSION_CHANGED], values))
                 warning.send(sender=self, flag=SESSION_CHANGED,
                              message=msg, values=values)
 
