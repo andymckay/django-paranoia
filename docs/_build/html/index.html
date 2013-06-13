@@ -1,25 +1,29 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Django Paranoia &mdash; Django Paranoia v0.1 documentation</title>
+    <title>Django Paranoia &mdash; Django Paranoia 0.1 documentation</title>
+    
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    './',
         VERSION:     '0.1',
-        COLLAPSE_MODINDEX: false,
+        COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Django Paranoia v0.1 documentation" href="" />
+    <link rel="top" title="Django Paranoia 0.1 documentation" href="#" />
     <link rel="next" title="Overview" href="topics/overview.html" /> 
   </head>
   <body>
@@ -32,7 +36,7 @@
         <li class="right" >
           <a href="topics/overview.html" title="Overview"
              accesskey="N">next</a> |</li>
-        <li><a href="">Django Paranoia v0.1 documentation</a> &raquo;</li> 
+        <li><a href="#">Django Paranoia 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -43,8 +47,8 @@
             
   <div class="section" id="django-paranoia">
 <h1>Django Paranoia<a class="headerlink" href="#django-paranoia" title="Permalink to this headline">¶</a></h1>
-<p>Django Paranoia is an attempt to implement some of the OWASP Detection Points
-as outlined in this document:</p>
+<p>Django Paranoia implements some of the OWASP Detection Points as outlined in
+this document:</p>
 <p><a class="reference external" href="https://www.owasp.org/index.php/AppSensor_DetectionPoints">https://www.owasp.org/index.php/AppSensor_DetectionPoints</a></p>
 <img alt="http://www.agmweb.ca/files/keep-calm-and-tell-security.png" class="align-right" src="http://www.agmweb.ca/files/keep-calm-and-tell-security.png" />
 <p>Basically it&#8217;s an attempt to find out when someone is trying to do something
@@ -52,22 +56,29 @@ nasty to your site and log it.</p>
 <p><em>Note</em>: this is does not prevent any actions that might cause damage to your
 site. All the usual prevention measures must be taken to ensure you are not
 susceptible to XSS, SQL injection and so on.</p>
+<p>Check out the source at:</p>
+<p><a class="reference external" href="https://github.com/andymckay/django-paranoia">https://github.com/andymckay/django-paranoia</a></p>
+<div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference external" href="topics/overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference external" href="topics/overview.html#setup">Setup</a></li>
-<li class="toctree-l1"><a class="reference external" href="topics/overview.html#using">Using</a></li>
-<li class="toctree-l1"><a class="reference external" href="topics/overview.html#output">Output</a></li>
-<li class="toctree-l1"><a class="reference external" href="topics/sessions.html">Sessions</a></li>
-<li class="toctree-l1"><a class="reference external" href="topics/forms.html">Forms</a></li>
-<li class="toctree-l1"><a class="reference external" href="topics/views.html">Views</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="topics/overview.html#setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="topics/overview.html#using">Using</a></li>
+<li class="toctree-l2"><a class="reference internal" href="topics/overview.html#output">Output</a></li>
 </ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="topics/sessions.html">Sessions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/forms.html">Forms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/views.html">Views</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/developers.html">Developers</a></li>
+</ul>
+</div>
 </div>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference external" href="genindex.html"><em>Index</em></a></li>
-<li><a class="reference external" href="modindex.html"><em>Module Index</em></a></li>
-<li><a class="reference external" href="search.html"><em>Search Page</em></a></li>
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
 </ul>
 </div>
 
@@ -77,35 +88,35 @@ susceptible to XSS, SQL injection and so on.</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-            <h3><a href="">Table Of Contents</a></h3>
-            <ul>
-<li><a class="reference external" href="">Django Paranoia</a><ul>
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Django Paranoia</a><ul>
 </ul>
 </li>
-<li><a class="reference external" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
-            <h4>Next topic</h4>
-            <p class="topless"><a href="topics/overview.html"
-                                  title="next chapter">Overview</a></p>
-            <h3>This Page</h3>
-            <ul class="this-page-menu">
-              <li><a href="_sources/index.txt"
-                     rel="nofollow">Show Source</a></li>
-            </ul>
-          <div id="searchbox" style="display: none">
-            <h3>Quick search</h3>
-              <form class="search" action="search.html" method="get">
-                <input type="text" name="q" size="18" />
-                <input type="submit" value="Go" />
-                <input type="hidden" name="check_keywords" value="yes" />
-                <input type="hidden" name="area" value="default" />
-              </form>
-              <p class="searchtip" style="font-size: 90%">
-              Enter search terms or a module, class or function name.
-              </p>
-          </div>
-          <script type="text/javascript">$('#searchbox').show(0);</script>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="topics/overview.html"
+                        title="next chapter">Overview</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -119,12 +130,12 @@ susceptible to XSS, SQL injection and so on.</p>
         <li class="right" >
           <a href="topics/overview.html" title="Overview"
              >next</a> |</li>
-        <li><a href="">Django Paranoia v0.1 documentation</a> &raquo;</li> 
+        <li><a href="#">Django Paranoia 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-      &copy; Copyright 2012, Andy McKay.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+        &copy; Copyright 2012, Andy McKay.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
     </div>
   </body>
 </html>
