@@ -2,26 +2,6 @@
 
 from django.conf import settings
 
-minimal = {
-    'DATABASES': {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'mydatabase'
-        }
-    },
-    'CACHES': {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        }
-    },
-    'INSTALLED_APPS': ['django.contrib.sessions'],
-    'SESSION_ENGINE': 'django_paranoia.sessions',
-    'DJANGO_PARANOIA_REPORTERS': ['django_paranoia.reporters.log'],
-}
-
-if not settings.configured:
-    settings.configure(**minimal)
-
 from django import forms
 from django.db import models
 from django.http import HttpResponse, HttpResponseNotAllowed

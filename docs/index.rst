@@ -27,6 +27,7 @@ https://github.com/andymckay/django-paranoia
    topics/sessions.rst
    topics/forms.rst
    topics/views.rst
+   topics/developers.rst
 
 Indices and tables
 ==================

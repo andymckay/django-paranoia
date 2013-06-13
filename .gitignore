@@ -9,6 +9,7 @@ docs/_gh-pages
 build.py
 build
 .DS_Store
+.tox
 *-min.css
 *-all.css
 *-min.js
