@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from django.conf import settings
-
 from django import forms
+from django.conf import settings
 from django.db import models
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.test import TestCase
@@ -192,3 +191,11 @@ class TestMiddleware(ResultCase):
         request.META['REMOTE_ADDR'] = 'foo'
         middle.process_response(request, HttpResponse())
         assert self.called
+
+    @mock.patch.object(settings, 'SESSION_ENGINE',
+                       'django_paranoia.tests.fakesessions')
+    def test_paranoid_session_must_be_correct_instance(self):
+        middle = ParanoidSessionMiddleware()
+        request = RequestFactory().get('/')
+        with self.assertRaises(ValueError):
+            middle.process_request(request)

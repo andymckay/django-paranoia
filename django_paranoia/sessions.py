@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.contrib.sessions.backends.cache import SessionStore as Base
 from django.core.cache import cache
+from django.utils.importlib import import_module
 
 from signals import warning
 from flags import trans, SESSION_CHANGED
@@ -69,12 +70,13 @@ class SessionStore(Base):
 class ParanoidSessionMiddleware(SessionMiddleware):
 
     def process_request(self, request):
-        if settings.SESSION_ENGINE != 'django_paranoia.sessions':
-            raise ValueError('SESSION_ENGINE must be django_paranoia.sessions')
-
+        engine = import_module(settings.SESSION_ENGINE)
         session_key = request.COOKIES.get(settings.SESSION_COOKIE_NAME, None)
-        request.session = SessionStore(request_meta=request.META.copy(),
-                                       session_key=session_key)
+        request.session = engine.SessionStore(request_meta=request.META.copy(),
+                                              session_key=session_key)
+        if not isinstance(request.session, SessionStore):
+            raise ValueError('SESSION_ENGINE session must be an instance of '
+                             'django_paranoia.sessions.SessionStore')
 
     def process_response(self, request, response):
         response = (super(ParanoidSessionMiddleware, self)
