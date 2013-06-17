@@ -5,6 +5,7 @@ settings/local.py
 *.sw[po]
 .coverage
 pip-log.txt
+docs/_build
 docs/_gh-pages
 build.py
 build
