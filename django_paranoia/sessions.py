@@ -53,10 +53,16 @@ class SessionStore(Base):
         """
         data = self._get_session()
         stash = data.get(DATA_PREFIX, None)
-        if stash is None:
+        if stash is None and (self.modified or
+                              settings.SESSION_SAVE_EVERY_REQUEST):
             # If a subclass overrides save(), this should catch it.
+            # We only check this when we know save() was called.
+            # During automated testing, save() is not typically called.
             raise ValueError('Cannot check data because it was not stashed. '
                              'This typically happens in save()')
+        if not stash:
+            stash = {}
+
         for k in META_KEYS:
             saved = stash.get('meta:%s' % k, '')
             current = request.META.get(k, '')
