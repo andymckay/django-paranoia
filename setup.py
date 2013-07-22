@@ -1,9 +1,23 @@
+import os
+import re
+
 from setuptools import setup
+
+
+version = None
+with open(os.path.join(os.path.dirname(__file__),
+          'django_paranoia/__init__.py')) as f:
+    for line in f.readlines():
+        m = re.search("__version__\s*=\s*(.*)", line)
+        if m:
+            version = m.group(1).strip()[1:-1] # quotes
+            break
+assert version, 'Could not find __version__ in __init__.py'
 
 
 setup(
     name='django-paranoia',
-    version='0.1.8.6',
+    version=version,
     description='OWASP detection point reporting for Django',
     long_description=open('README.rst').read(),
     author='Andy McKay',
