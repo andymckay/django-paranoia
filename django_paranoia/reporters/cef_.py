@@ -11,7 +11,7 @@ def report(signal, message=None, flag=None, sender=None, values=None,
     severity = g('CEF_DEFAULT_SEVERITY', 5)
     cef_kw = {
         'msg': message,
-        'signature': request_path
+        'signature': request_path,
         'config': {
             'cef.product': g('CEF_PRODUCT', 'paranoia'),
             'cef.vendor': g('CEF_VENDOR', 'Mozilla'),
