@@ -2,6 +2,19 @@
 
 from django import forms
 from django.conf import settings
+minimal = {
+    'DATABASES': {
+        'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase'
+        }
+    },
+    'SESSION_ENGINE': 'django_paranoia.sessions'
+}
+
+if not settings.configured:
+    settings.configure(**minimal)
+
 from django.db import models
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.test import TestCase
@@ -10,6 +23,7 @@ from django.test.client import RequestFactory
 import mock
 from nose.tools import eq_, ok_
 from django_paranoia.configure import config
+
 from django_paranoia.decorators import require_http_methods
 from django_paranoia.forms import ParanoidForm, ParanoidModelForm
 from django_paranoia.middleware import Middleware
@@ -60,7 +74,7 @@ class TestForms(ResultCase):
     def test_multiple(self):
         SimpleForm({'no': 'wat', 'yes': True, 'sql': 'aargh'})
         res = self.called[0][1]
-        eq_(res['values'], ['sql', 'no'])
+        eq_(set(res['values']), set(['sql', 'no']))
 
     def test_model_fine(self):
         SimpleModelForm()
@@ -178,7 +192,7 @@ class TestMiddleware(ResultCase):
                                       HttpResponse())
         args = self.called[0][1]
         ok_('request_meta' in args)
-        eq_(args['request_path'], 'http://testserver/')
+        eq_(args['request_path'], '/')
 
     def test_paranoia(self):
         middle = ParanoidSessionMiddleware()
